@@ -42,3 +42,36 @@ const URL = "http://monetizzetesteqa.s3-website-us-east-1.amazonaws.com/"
     assert.notEqual(this.quantidade, 0, "Quantidade não pode ser 0(zero)");
   });
 
+
+  
+
+
+    Given('Estou no e-commerce para fazer um contato.', {timeout: 60 * 1000}, async function () {
+      await driver.get(URL)
+    });
+
+    Given('Entro na página contato pelo menu.', async function () {
+      await driver.findElement(By.css(".site-menu > li:nth-child(5) > .nav-link")).click();
+    });
+
+    Given('Preencho os campos.', function () {
+      driver.findElement(By.id("fname")).sendKeys("Ana Paula");
+      driver.findElement(By.id("lname")).sendKeys("Cristina");
+      driver.findElement(By.id("eaddress")).sendKeys("Rua A, 947 - Vila Maria - Barra Mansa");
+      driver.findElement(By.id("tel")).sendKeys("24999247271");
+      driver.findElement(By.id("message")).sendKeys("Não consegui finalizar a compra pelo site");
+    });
+
+    When('Eu clico em enviar.', {timeout: 60 * 1000}, async function () {
+      await driver.findElement(By.css(".btn")).click();
+    });
+
+    Then('Deve avançar para página de mensagem de agradecimento.', {timeout: 60 * 1000}, async function () {
+      var urlAtual = await driver.getCurrentUrl();
+      var urlAnterior = URL+"contact.html";
+      assert.notEqual(urlAtual,urlAnterior, "A página de agradecimento não foi exibida.");
+    
+    });
+
+
+
